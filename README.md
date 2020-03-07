@@ -3,7 +3,7 @@ Minimalist assembly game for a Ben Eater style breadboard 6502 driven computer
 
 Ben Eater's 6502 kit: https://eater.net/6502
 
-Video demo of v0.1:
+Video demo of v0.1: https://www.youtube.com/watch?v=PJtkv0Y0zmc
 
 # GAMEPLAY:
 
