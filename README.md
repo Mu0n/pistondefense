@@ -17,6 +17,8 @@ If the projectile reaches the left edge of the screen, you lose.
 
 If you crush the projectile, your piston bounces back up and a new projectile is spawned.
 
+You win by crushing a personally satisfying amount of projectile before you end the game yourself.
+
 # TO DO:
 
 - Make the splash screen read and display strings from the end of the ROM instead of direct instructions
