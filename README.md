@@ -23,7 +23,7 @@ You win by crushing a personally satisfying amount of projectiles before you end
 
 - Make the splash screen read and display strings from the end of the ROM instead of direct instructions
 - Keep score
-- Retune the game using an oscillator crystal in the MHz ranger rather than a clock timer in the kHz range
+- Retune the game using an oscillator crystal in the MHz range rather than a clock timer in the kHz range
 - Make the following enemies increase speed
 - Give the player multiple pistons that can independantly break
 - Create new types of enemies
