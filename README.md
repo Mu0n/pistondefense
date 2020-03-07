@@ -7,9 +7,9 @@ Video demo of v0.1:
 
 # GAMEPLAY:
 
-You must crush a leftward projectile before it reaches the left edge of the 2x16 LCD screen.
-Push the first button to crush the projectile with your piston at the right moment.
-Push the second button to retract the piston up.
+*You must crush a leftward projectile before it reaches the left edge of the 2x16 LCD screen.
+*Push the first button to crush the projectile with your piston at the right moment.
+*Push the second button to retract the piston up.
 
 If the projectile reaches the piston when it is already in its lowered state, your piston breaks and you lose.
 If the projectile reaches the left edge of the screen, you lose.
