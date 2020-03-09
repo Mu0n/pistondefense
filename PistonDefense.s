@@ -11,25 +11,27 @@ PORTB = $6000
 PORTA = $6001
 DDRB = $6002
 DDRA = $6003
-E = %10000000    ;LCD enable
-RW = %01000000   ;LCD read or write
-RS = %00100000   ;LCD register select
+EN = %00000100  ;LCD enable (PB2)
+RW = %00000010  ;LCD read or write (PB1)
+RS = %00000001  ;LCD register select (PB0)
+; LCD D4-7 connected to PB4-7
 
 
   .org $8000
 
 reset:
-;set port B as output which will latch
-   lda #%11111111
-   sta DDRB
-   
-;set port As top 3 bits as output
-   lda #%11100000
-   sta DDRA
+  ;set port B as output which will latch
+  lda #%11111111
+  sta DDRB
 
-;Function set is sent to the LCD
-   lda #%00111000 ; Set 8-bit mode,  2line, 5x8 font
-   jsr lcdcmd
+  ; Set port A as inout which will latch
+  lda #%00000000  
+  sta DDRA
+
+  jsr lcd_init 
+
+  lda #%00101000  ; Set 4bit, 2line, 5x8 font
+  jsr lcdcmd
    
 screensetup:
 ;Clear display
@@ -136,31 +138,54 @@ screensetup:
    jsr write
    jmp splashloop
 
-write:
-   sta PORTB
-   lda #RS        ;RS set
-   sta PORTA 
-   lda #(RS | E)   ;toggle enable
-   sta PORTA
-   lda #RS
-   sta PORTA
-   rts
+lcd_init:
+  lda #%10101010 ; debug line
+  lda #(%00100000 | EN)  ; 4-bit operation
+  sta PORTB
+  lda #0
+  sta PORTB       ; Clear EN
+  rts 
+
 lcdcmd:
-   sta PORTB
-   lda #0        ;Clear RS/RW/E 
-   sta PORTA 
-   lda #E
-   sta PORTA
-   lda #0
-   sta PORTA
-   rts
+  tax           ; transfer A to X
+  ora #EN       ; set enable flag
+  sta PORTB     ; send to lcd
+  lda #0
+  sta PORTB     
+  txa           ; transfer X to X
+  asl           ; shift left
+  asl           ; shift left
+  asl           ; shift left
+  asl           ; shift left
+  ora #EN       ; set enable flag
+  sta PORTB
+  lda #0
+  sta PORTB
+  rts
+
+write:
+  tax             ; transfer A to X
+  ora #(EN | RS)  ; set enable flag
+  sta PORTB       ; send to lcd
+  lda #0
+  sta PORTB     
+  txa             ; transfer X to A
+  asl             ; shift left
+  asl             ; shift left
+  asl             ; shift left
+  asl             ; shift left
+  ora #(EN | RS)  ; set enable flag
+  sta PORTB
+  lda #0
+  sta PORTB
+  rts
    
 splashloop:
     lda PORTA    ; get the data from porta
-	and #%00000001  ; get only the lowest byte, the one tied to PA0 and the switch
-	cmp #%00000001
-	bne gamesetup     ; the button made porta bit-0 go low, so erase and set up the game
-	jmp splashloop        ; keep reading on
+    and #%00000001  ; get only the lowest byte, the one tied to PA0 and the switch
+    cmp #%00000001
+    bne gamesetup     ; the button made porta bit-0 go low, so erase and set up the game
+    jmp splashloop        ; keep reading on
 
 
 ;
